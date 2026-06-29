@@ -61,7 +61,47 @@ export default function App() {
 
     const newText: FloatingText = { id, text: phrase, color, rotation };
     setFloatingTexts((prev) => [...prev, newText]);
+useEffect(() => {
+    const handleTouchStart = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      const mouseEvent = new MouseEvent('pointerdown', {
+        clientX: touch.clientX,
+        clientY: touch.clientY,
+        button: 0,
+        buttons: 1
+      });
+      window.dispatchEvent(mouseEvent);
+    };
 
+    const handleTouchMove = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      const mouseEvent = new MouseEvent('pointermove', {
+        clientX: touch.clientX,
+        clientY: touch.clientY,
+        buttons: 1
+      });
+      window.dispatchEvent(mouseEvent);
+      if (e.cancelable) e.preventDefault();
+    };
+
+    const handleTouchEnd = () => {
+      const mouseEvent = new MouseEvent('pointerup', {
+        button: 0,
+        buttons: 0
+      });
+      window.dispatchEvent(mouseEvent);
+    };
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: false });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd, { passive: false });
+
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, []);
     setTimeout(() => {
       setFloatingTexts((prev) => prev.filter((t) => t.id !== id));
     }, 750);
