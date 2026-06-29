@@ -1,0 +1,6 @@
+{
+  "name": "Classic Block Blast",
+  "description": "A retro-themed 8x8 block puzzle game with classic aesthetics, smooth touch controls, automated game over detection, and elegant scoring.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
